@@ -8,7 +8,7 @@ State::~State()
 {
 }
 
-GameState State::getGameState()
+GameState State::getGameState() const
 {
 	return state;
 }

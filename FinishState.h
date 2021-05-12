@@ -15,7 +15,7 @@ private:
 public:
 	virtual void init() override;
 	virtual void update() override;
-	virtual void handleEvents(sf::Event& event) override;
+	virtual GameState handleEvents(sf::Event& event) override;
 	virtual void render() override;
 
 };

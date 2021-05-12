@@ -1,13 +1,13 @@
-#ifndef RUNNINGSTATE_H__
-#define RUNNINGTATE_H__
+#ifndef ENDSTATE_H__
+#define ENDSTATE_H__
 
 #include "State.h"
 
-class RunningState : public State
+class EndState : public State
 {
 public:
-	RunningState(GameState state, sf::RenderWindow& win, sf::Font& font);
-	~RunningState();
+	EndState(GameState state, sf::RenderWindow& win, sf::Font& font);
+	~EndState();
 
 private:
 
@@ -19,6 +19,5 @@ public:
 	virtual void render() override;
 
 };
-
 
 #endif
