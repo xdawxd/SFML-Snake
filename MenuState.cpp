@@ -19,9 +19,7 @@ void MenuState::backgroundInit()
 
 void MenuState::titleInit()
 {	
-	std::string titleStr = "SNAKE";
-
-	title.setString(titleStr);
+	title.setString("SNAKE");
 	title.setFont(*font);
 
 	title.setFillColor(sf::Color(0, 80, 0));
