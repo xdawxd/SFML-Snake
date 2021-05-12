@@ -10,7 +10,7 @@ MenuState::~MenuState()
 
 void MenuState::backgroundInit()
 {
-	if (!bgTexture.loadFromFile("static/images/gradient_2.jpg"))
+	if (!bgTexture.loadFromFile("static/images/gradient.jpg"))
 	{
 		std::cout << "ERROR: background not found!" << std::endl;
 	}
