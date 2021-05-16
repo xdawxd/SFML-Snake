@@ -13,6 +13,7 @@ private:
 	void backgroundInit();
 	void titleInit();
 	void optionsInit();
+	void howToPlayInit();
 
 	sf::Texture bgTexture;
 	sf::Sprite background;

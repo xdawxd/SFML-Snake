@@ -1,7 +1,8 @@
 #include "Game.h"
-/*
+
 void Game::changeState()
 {
+	
 	delete currentState;
 
 	switch (gameState)
@@ -9,18 +10,24 @@ void Game::changeState()
 	case MENU:
 		currentState = new MenuState(MENU, window, font);
 		break;
-	case RUNNING:
-		currentState = new RunningState(RUNNING, window, font);
+	case RUNNING_EASY:
+		currentState = new RunningState(RUNNING_EASY, window, font);
 		break;
+	case RUNNING_NORMAL:
+		currentState = new RunningState(RUNNING_NORMAL, window, font);
+		break;
+	case RUNNING_HARD:
+		currentState = new RunningState(RUNNING_HARD, window, font);
+		break;
+	/*
 	case FINISH:
 		currentState = new FinishState(FINISH, window, font);
 		break;
-	case END:
-		currentState = new EndState(END, window, font);
-		break;
+	*/
 	}
+	currentState->init();
 }
-*/
+
 void Game::handleState()
 {
 	gameState = currentState->handleEvents(event);
@@ -55,8 +62,8 @@ void Game::runGame()
 	
 	while (gameState != END)
 	{
-		//if (gameState != currentState->getGameState())
-			//changeState();
+		if (gameState != currentState->getGameState())
+			changeState();
 
 		handleState();
 	}

@@ -5,7 +5,6 @@
 #include "MenuState.h"
 #include "RunningState.h"
 #include "FinishState.h"
-#include "EndState.h"
 
 class Game 
 {

@@ -11,15 +11,14 @@
 * MENU - Start of the game -> displaying menu
 * RUNNING - Game running -> displaying the gameplay
 * FINISH - Player lost/won the game -> displaying you lost/won
-* END - Game ended -> display "Do want to play again?"
-* if END statement == true:
-* END -> RUNNING | difficulty stays the same
+* END - Closing the game window
+* if FINISH statement == true:
+* FINISH -> RUNNING | difficulty stays the same
 * else:
-* END -> MENU
+* FINISH -> MENU
 */
 
-enum GameState { MENU, RUNNING, FINISH, END };
-
+enum GameState { MENU, RUNNING_EASY, RUNNING_NORMAL, RUNNING_HARD, FINISH, END };
 
 class State
 {
@@ -34,7 +33,6 @@ public:
 	GameState getGameState() const;
 
 protected:
-	// attempt to set a default font and store it in a pointer variable
 	sf::Font* font;
 	sf::RenderWindow* window;
 	const GameState state;
