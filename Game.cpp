@@ -5,7 +5,7 @@ void Game::changeState()
 	
 	delete currentState;
 
-	switch (gameState)
+	switch (gameState) // debug here 
 	{
 	case MENU:
 		currentState = new MenuState(MENU, window, font);
@@ -38,7 +38,7 @@ void Game::handleState()
 
 Game::Game() : gameState(MENU)
 {
-	window.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Sssnake");
+	window.create(sf::VideoMode(State::SCREEN_WIDTH, State::SCREEN_HEIGHT), "Sssnake");
 	window.setFramerateLimit(60);
 	window.clear();
 	window.display();

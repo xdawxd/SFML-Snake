@@ -83,12 +83,11 @@ GameState MenuState::handleEvents(sf::Event& event)
 
 	while (window->pollEvent(event))
 	{
-		if (
-			event.type == sf::Event::Closed ||
+		if (event.type == sf::Event::Closed ||
 			(event.type == sf::Event::MouseButtonReleased && menuOptions[3].getGlobalBounds().contains(mousePosition)))
 			return END;
 		else if (event.type == sf::Event::MouseButtonReleased && menuOptions[0].getGlobalBounds().contains(mousePosition))
-			return RUNNING_EASY;
+			return RUNNING_EASY;			
 		else if (event.type == sf::Event::MouseButtonReleased && menuOptions[1].getGlobalBounds().contains(mousePosition))
 			return RUNNING_NORMAL;
 		else if (event.type == sf::Event::MouseButtonReleased && menuOptions[2].getGlobalBounds().contains(mousePosition))

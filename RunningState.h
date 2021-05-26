@@ -4,6 +4,8 @@
 #include "Snake.h"
 #include "State.h"
 
+enum Directions { LEFT, RIGHT, UP, DOWN };
+
 class RunningState : public State
 {
 public:
@@ -12,10 +14,18 @@ public:
 
 private:
 	Snake* snake;
-	sf::CircleShape* apple;
+	sf::Texture texture;
+	sf::Sprite* apple;
+	sf::Clock clock;
 	float delay;
+	Directions dir;
+	std::vector<sf::Sprite> snakeParts;
+	sf::Vector2f applePosition;
 
-	void randomizePosition();
+	void randomizeApplePosition();
+	void appleInit();
+	void updateSnakePosition();
+	void snakeMove();
 public:
 	virtual void init() override;
 	virtual void update() override;

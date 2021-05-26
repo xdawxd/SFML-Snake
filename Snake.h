@@ -2,28 +2,27 @@
 #define SNAKE_H__
 
 #include "SFML/Graphics.hpp"
+#include "State.h"
 #include <vector>
-
-enum Directions {LEFT, RIGHT, UP, DOWN};
 
 class Snake
 {
 	std::vector<sf::Sprite> snake;
-	sf::RenderWindow& window;
+	GameState state;
 	sf::Texture head;
 	sf::Texture body;
 	sf::Sprite sprite;
-	Directions dir;
 	int length;
 	int speed;
 	int fieldSize;
 
 public:
-	Snake(sf::RenderWindow& window);
+	Snake(GameState state);
 	~Snake();
-	void updatePosition();
-	void move();
-	//void addParts(int headX, int headY);
+	void initSnake();
+	int getSpeed();
+	int getLength();
+	std::vector<sf::Sprite> getSnake();
 };
 
 #endif

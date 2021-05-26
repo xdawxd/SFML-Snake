@@ -23,6 +23,9 @@ enum GameState { MENU, RUNNING_EASY, RUNNING_NORMAL, RUNNING_HARD, FINISH, END }
 class State
 {
 public:
+	static const int SCREEN_WIDTH = 800;
+	static const int SCREEN_HEIGHT = 600;
+
 	State(GameState state, sf::RenderWindow& win, sf::Font& font);
 	virtual ~State();
 	virtual void init() = 0;
