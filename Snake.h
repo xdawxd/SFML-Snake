@@ -20,6 +20,7 @@ public:
 	Snake(GameState state);
 	~Snake();
 	void initSnake();
+	sf::Sprite newPart(sf::Vector2f pos);
 	int getSpeed();
 	int getLength();
 	std::vector<sf::Sprite> getSnake();

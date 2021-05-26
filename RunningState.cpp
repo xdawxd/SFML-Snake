@@ -3,6 +3,7 @@
 RunningState::RunningState(GameState state, sf::RenderWindow& win, sf::Font& font) : State(state, win, font)
 {
 	dir = DOWN;
+	applesEaten = 0;
 }
 
 RunningState::~RunningState()
@@ -11,35 +12,63 @@ RunningState::~RunningState()
 	delete apple;
 }
 
-void RunningState::randomizeApplePosition()
+void RunningState::drawHeader()
 {
-	int posX = rand() % State::SCREEN_WIDTH;
-	int posY = rand() % State::SCREEN_HEIGHT;
+	sf::RectangleShape nav;
+	nav.setFillColor(sf::Color(1, 26, 5, 128));
+	nav.setSize(sf::Vector2f(State::SCREEN_WIDTH, State::SCREEN_HEIGHT / 14));
 
-	applePosition = sf::Vector2f(posX, posY);
+	sf::Text score;
+	score.setFont(*font);
+	score.setOrigin(
+		score.getLocalBounds().left + score.getLocalBounds().width / 2.f,
+		score.getLocalBounds().top + score.getLocalBounds().height / 2.f
+	);
+	score.setString(std::to_string(applesEaten));
+	score.setPosition(sf::Vector2f(20, 3));
 
-	apple->setPosition(posX, posY);
+	sf::Text menu;
+	menu.setFont(*font);
+	menu.setOrigin(
+		menu.getLocalBounds().left + menu.getLocalBounds().width / 2.f,
+		menu.getLocalBounds().top + menu.getLocalBounds().height / 2.f
+	);
+	menu.setString("MENU");
+	menu.setPosition(sf::Vector2f(State::SCREEN_WIDTH - 140, 3));
+
+
+	window->draw(nav);
+	window->draw(score);
+	window->draw(menu);
 }
 
 void RunningState::appleInit()
 {
 	apple->setTexture(texture);
 	apple->setScale(sf::Vector2f(1.25, 1.25));
+	apple->setOrigin(
+		apple->getLocalBounds().left + apple->getLocalBounds().width / 2.f,
+		apple->getLocalBounds().top + apple->getLocalBounds().height / 2.f
+	);
 }
 
-void RunningState::updateSnakePosition()
+void RunningState::randomizeApplePosition()
 {
-	if (dir == DOWN || dir == UP)
-	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) dir = LEFT;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) dir = RIGHT;
-	}
-	else if (dir == LEFT || dir == RIGHT)
-	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) dir = UP;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) dir = DOWN;
-	}
-	// fix a bug with the snake moving inside itself
+	int fieldSize = 20;
+
+	int posX = rand() % State::SCREEN_WIDTH - 20;
+	int posY = rand() % State::SCREEN_HEIGHT - 20;
+
+	int remainderX = posX % fieldSize;
+	int remainderY = posY % fieldSize;
+
+
+	int x = posX + fieldSize - remainderX;
+	int y = posY + fieldSize - remainderY;
+
+	applePosition = sf::Vector2f(x, y);
+
+	apple->setPosition(x, y);
 }
 
 void RunningState::snakeMove()
@@ -80,6 +109,51 @@ void RunningState::snakeMove()
 		headX = bodyX;
 		headY = bodyY;
 	}
+
+	if (checkAppleColision())
+	{
+		randomizeApplePosition();
+		applesEaten++;
+		snakeParts.push_back(snake->newPart(
+			snakeParts.at(snakeParts.size() - 1).getPosition()
+		));
+	}
+
+	if (isSelftColiding())
+	{
+		std::cout << "END" << std::endl;
+	}
+}
+
+void RunningState::updateSnakePosition()
+{
+	if (dir == DOWN || dir == UP)
+	{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) dir = LEFT;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) dir = RIGHT;
+	}
+	else if (dir == LEFT || dir == RIGHT)
+	{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) dir = UP;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) dir = DOWN;
+	}
+}
+
+bool RunningState::checkAppleColision()
+{
+	if (snakeParts[0].getPosition() == applePosition)
+		return true;
+	return false;
+}
+
+bool RunningState::isSelftColiding() // TODO
+{
+	for (size_t i = 0; i < snakeParts.size(); ++i)
+	{
+		if (snakeParts[0].getPosition() == snakeParts[i].getPosition())
+			return true;
+	}
+	return false;
 }
 
 void RunningState::init()
@@ -128,6 +202,8 @@ void RunningState::render()
 	window->clear();
 
 	window->draw(*apple);
+
+	drawHeader();
 
 	for (size_t i = 0; i < snakeParts.size(); ++i)
 		window->draw(snakeParts[i]);

@@ -57,6 +57,8 @@ Game::~Game()
 
 void Game::runGame()
 {
+	srand(time(nullptr));
+
 	currentState = new MenuState(MENU, window, font);
 	currentState->init();
 	

@@ -38,6 +38,12 @@ void Snake::initSnake()
 	}
 }
 
+sf::Sprite Snake::newPart(sf::Vector2f pos)
+{
+	sprite.setPosition(pos);
+	return sprite;
+}
+
 int Snake::getSpeed()
 {
 	return speed;

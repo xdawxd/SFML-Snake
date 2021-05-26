@@ -18,14 +18,21 @@ private:
 	sf::Sprite* apple;
 	sf::Clock clock;
 	float delay;
+	int applesEaten;
 	Directions dir;
 	std::vector<sf::Sprite> snakeParts;
 	sf::Vector2f applePosition;
 
-	void randomizeApplePosition();
+	void drawHeader();
+
 	void appleInit();
-	void updateSnakePosition();
+	void randomizeApplePosition();
+
 	void snakeMove();
+	void updateSnakePosition();
+
+	bool checkAppleColision();
+	bool isSelftColiding();
 public:
 	virtual void init() override;
 	virtual void update() override;
