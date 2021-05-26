@@ -16,6 +16,7 @@ private:
 	Snake* snake;
 	sf::Texture texture;
 	sf::Sprite* apple;
+	sf::Text menu;
 	sf::Clock clock;
 	float delay;
 	int applesEaten;
@@ -24,6 +25,8 @@ private:
 	sf::Vector2f applePosition;
 
 	void drawHeader();
+	void drawBoard();
+	void drawBackground();
 
 	void appleInit();
 	void randomizeApplePosition();
@@ -33,6 +36,7 @@ private:
 
 	bool checkAppleColision();
 	bool isSelftColiding();
+	bool isHittingWall();
 public:
 	virtual void init() override;
 	virtual void update() override;
