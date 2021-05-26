@@ -118,11 +118,6 @@ void RunningState::snakeMove()
 			snakeParts.at(snakeParts.size() - 1).getPosition()
 		));
 	}
-
-	if (isSelftColiding())
-	{
-		std::cout << "END" << std::endl;
-	}
 }
 
 void RunningState::updateSnakePosition()
@@ -148,7 +143,7 @@ bool RunningState::checkAppleColision()
 
 bool RunningState::isSelftColiding() // TODO
 {
-	for (size_t i = 0; i < snakeParts.size(); ++i)
+	for (size_t i = 1; i < snakeParts.size(); ++i)
 	{
 		if (snakeParts[0].getPosition() == snakeParts[i].getPosition())
 			return true;
@@ -189,7 +184,7 @@ GameState RunningState::handleEvents(sf::Event& event)
 
 	while (window->pollEvent(event))
 	{
-		if (event.type == sf::Event::Closed)
+		if (event.type == sf::Event::Closed || isSelftColiding())
 			return END;
 	}
 	return state;
