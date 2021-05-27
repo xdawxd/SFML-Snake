@@ -14,7 +14,6 @@ RunningState::~RunningState()
 
 void RunningState::drawHeader()
 {
-	sf::RectangleShape nav;
 	nav.setFillColor(sf::Color(1, 66, 12));
 	nav.setSize(sf::Vector2f(State::SCREEN_WIDTH, State::SCREEN_HEIGHT / 12));
 
@@ -26,15 +25,6 @@ void RunningState::drawHeader()
 	);
 	score.setString(std::to_string(applesEaten));
 	score.setPosition(sf::Vector2f(80, 6));
-
-	sf::Text menu;
-	menu.setFont(*font);
-	menu.setOrigin(
-		menu.getLocalBounds().left + menu.getLocalBounds().width / 2.f,
-		menu.getLocalBounds().top + menu.getLocalBounds().height / 2.f
-	);
-	menu.setString("MENU");
-	menu.setPosition(sf::Vector2f(State::SCREEN_WIDTH - 140, 3));
 
 	sf::Sprite appleScore;
 	sf::Texture texture;
@@ -50,33 +40,21 @@ void RunningState::drawHeader()
 	window->draw(nav);
 	window->draw(score);
 	window->draw(appleScore);
-	window->draw(menu);
 }
 
 void RunningState::drawBoard()
 {
-	sf::RectangleShape board;
 	board.setSize(sf::Vector2f(State::SCREEN_WIDTH / 1.2, State::SCREEN_HEIGHT / 1.2));
 	board.setOrigin(
 		board.getLocalBounds().left + board.getLocalBounds().width / 2.f,
 		board.getLocalBounds().top + board.getLocalBounds().height / 2.f
 	);
-	board.setFillColor(sf::Color(0, 117, 20));
+	board.setFillColor(sf::Color(0, 120, 0));
 	board.setPosition(sf::Vector2f(State::SCREEN_WIDTH / 2, State::SCREEN_HEIGHT / 2));
 	board.setOutlineColor(sf::Color(1, 66, 12));
 	board.setOutlineThickness(5);
 
 	window->draw(board);
-}
-
-void RunningState::drawBackground()
-{
-	sf::Sprite background;
-	sf::Texture texture;
-	texture.loadFromFile("static/images/gradient.jpg");
-	background.setTexture(texture);
-
-	window->draw(background);
 }
 
 void RunningState::appleInit()
@@ -148,7 +126,21 @@ void RunningState::snakeMove()
 		headX = bodyX;
 		headY = bodyY;
 	}
+	/*
+	int snakeSpeed = snake->getSpeed();
+	if (snakeParts[0].getPosition().x + snakeSpeed > board.getLocalBounds().width) // right
+	{
 
+	}
+	if (snakeParts[0].getPosition().y - snakeSpeed < 0) // left
+	{
+
+	}
+	if (snakeParts[0].getPosition().y - snakeSpeed < nav.getLocalBounds().height) // ended here
+	{
+
+	}
+	*/
 	if (checkAppleColision())
 	{
 		randomizeApplePosition();
@@ -201,6 +193,39 @@ bool RunningState::isHittingWall()
 		
 }
 
+void RunningState::drawWin()
+{
+	sf::Text winnerText;
+	winnerText.setOrigin(
+		winnerText.getLocalBounds().left + winnerText.getLocalBounds().width / 2.f,
+		winnerText.getLocalBounds().top + winnerText.getLocalBounds().height / 2.f
+	);
+	winnerText.setString("You Won!");
+	winnerText.setCharacterSize(96);
+	winnerText.setFillColor(sf::Color(0, 120, 0));
+	winnerText.setOutlineColor(sf::Color::Black);
+	winnerText.setOutlineThickness(4);
+
+	window->draw(winnerText);
+}
+
+void RunningState::drawLose()
+{
+	sf::Text loseText;
+	loseText.setOrigin(
+		loseText.getLocalBounds().left + loseText.getLocalBounds().width / 2.f,
+		loseText.getLocalBounds().top + loseText.getLocalBounds().height / 2.f
+	);
+	loseText.setString("You Lost!");
+	loseText.setCharacterSize(96);
+	loseText.setFillColor(sf::Color(120, 0, 0));
+	loseText.setOutlineColor(sf::Color::Black);
+	loseText.setOutlineThickness(4);
+	loseText.setPosition(sf::Vector2f(State::SCREEN_WIDTH / 2, State::SCREEN_HEIGHT / 2));
+
+	window->draw(loseText);
+}
+
 void RunningState::init()
 {
 	snake = new Snake(state);
@@ -221,12 +246,7 @@ void RunningState::update()
 {
 	sf::Vector2f mousePosition = sf::Vector2f(sf::Mouse::getPosition(*window).x, sf::Mouse::getPosition(*window).y);
 	sf::Time time = clock.getElapsedTime();
-	/* TODO
-	if (menu.getGlobalBounds().contains(mousePosition)) 
-		menu.setScale(1.1f, 1.1f);
-	else
-		menu.setScale(1.f, 1.f);
-	*/
+
 	if (time.asSeconds() >= delay)
 	{
 		snakeMove();
@@ -242,10 +262,8 @@ GameState RunningState::handleEvents(sf::Event& event)
 	{
 		if (event.type == sf::Event::Closed)
 			return END;
-		else if (isSelftColiding() || isHittingWall())
+		if (isSelftColiding() || isHittingWall())
 			return MENU;
-		//else if (event.type == sf::Event::MouseButtonReleased && menu.getGlobalBounds().contains(mousePosition))
-			//return MENU;
 	}
 	return state;
 }
@@ -254,9 +272,8 @@ void RunningState::render()
 {
 	update();
 	
-	window->clear(); // sf::Color(1, 87, 15, 128)
+	window->clear(sf::Color(0, 32, 0, 128));
 
-	drawBackground();
 	drawBoard();
 	window->draw(*apple);
 	drawHeader();
@@ -265,6 +282,8 @@ void RunningState::render()
 		window->draw(snakeParts[i]);
 	
 	updateSnakePosition();
+
+
 
 	window->display();
 }

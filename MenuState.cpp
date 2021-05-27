@@ -8,22 +8,15 @@ MenuState::~MenuState()
 {
 }
 
-void MenuState::backgroundInit()
-{
-	if (!bgTexture.loadFromFile("static/images/gradient.jpg"))
-	{
-		std::cout << "ERROR: background not found!" << std::endl;
-	}
-	background.setTexture(bgTexture);
-}
-
 void MenuState::titleInit()
 {	
 	title.setString("SNAKE");
 	title.setFont(*font);
 
 	title.setFillColor(sf::Color(0, 80, 0));
-	title.setCharacterSize(86);
+	title.setOutlineColor(sf::Color::Black);
+	title.setOutlineThickness(4);
+	title.setCharacterSize(96);
 	title.setOrigin(
 		title.getGlobalBounds().left + title.getGlobalBounds().width / 2.f,
 		title.getGlobalBounds().top + title.getGlobalBounds().height / 2.f
@@ -40,7 +33,9 @@ void MenuState::optionsInit()
 		sf::Text diff;
 		diff.setString(options[i]);
 		diff.setFont(*font);
-		diff.setCharacterSize(57);
+		diff.setCharacterSize(67);
+		diff.setOutlineColor(sf::Color::Black);
+		diff.setOutlineThickness(2);
 		diff.setOrigin(diff.getGlobalBounds().width / 2.f, diff.getGlobalBounds().height / 2.f);
 		diff.setPosition(sf::Vector2f(window->getSize().x / 2.f, window->getSize().y / 2.f - 76.f + 4.f * i * 22.f));
 
@@ -59,7 +54,6 @@ void MenuState::optionsInit()
 
 void MenuState::init()
 {
-	backgroundInit();
 	titleInit();
 	optionsInit();
 }
@@ -99,9 +93,9 @@ GameState MenuState::handleEvents(sf::Event& event)
 
 void MenuState::render()
 {
-	window->clear();
+	window->clear(sf::Color(0, 32, 0, 128));
 
-	window->draw(background);
+	//window->draw(background);
 	window->draw(title);
 	
 	for (size_t i = 0; i < menuOptions.size(); i++)

@@ -4,6 +4,8 @@
 #include "Snake.h"
 #include "State.h"
 
+#include <Windows.h>
+
 enum Directions { LEFT, RIGHT, UP, DOWN };
 
 class RunningState : public State
@@ -16,8 +18,9 @@ private:
 	Snake* snake;
 	sf::Texture texture;
 	sf::Sprite* apple;
-	sf::Text menu;
 	sf::Clock clock;
+	sf::RectangleShape nav;
+	sf::RectangleShape board;
 	float delay;
 	int applesEaten;
 	Directions dir;
@@ -26,7 +29,6 @@ private:
 
 	void drawHeader();
 	void drawBoard();
-	void drawBackground();
 
 	void appleInit();
 	void randomizeApplePosition();
@@ -37,6 +39,9 @@ private:
 	bool checkAppleColision();
 	bool isSelftColiding();
 	bool isHittingWall();
+
+	void drawWin();
+	void drawLose();
 public:
 	virtual void init() override;
 	virtual void update() override;

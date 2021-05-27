@@ -10,7 +10,6 @@ public:
 	~MenuState();
 
 private:
-	void backgroundInit();
 	void titleInit();
 	void optionsInit();
 

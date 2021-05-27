@@ -38,12 +38,12 @@ void Game::handleState()
 
 Game::Game() : gameState(MENU)
 {
-	window.create(sf::VideoMode(State::SCREEN_WIDTH, State::SCREEN_HEIGHT), "Sssnake");
+	window.create(sf::VideoMode(State::SCREEN_WIDTH, State::SCREEN_HEIGHT), "Sssnake", sf::Style::Titlebar | sf::Style::Close);
 	window.setFramerateLimit(60);
 	window.clear();
 	window.display();
 
-	if (!font.loadFromFile("static/fonts/DarSkin-xRpr.ttf"))
+	if (!font.loadFromFile("static/fonts/ARCADECLASSIC.ttf"))
 	{
 		std::cout << "ERROR: font not found!" << std::endl;
 	}
