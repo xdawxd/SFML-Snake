@@ -1,4 +1,4 @@
-# SFML-Saper
+# SFML-Snake
 
 ## Technologies
 
